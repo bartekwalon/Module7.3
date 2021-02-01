@@ -7,7 +7,7 @@ class BaseContact:
         return f'{self.name} {self.surname}'
 
     def contact(self):
-        print (f'Wybieram numer +48 {self.phone} i dzwonię do {self.full_name}')
+        print (f'Wybieram numer +48 {self.phone} i dzwonię do {self.full_name}') 
 
     def __str__(self):
         return self.full_name
@@ -15,16 +15,22 @@ class BaseContact:
     def label_length(self):
         print(f'Długość imienia: {len(self.name)} i długość nazwiska {len(self.surname)}') 
 
+
     __repr__ = __str__
 
 from faker import Faker
+fake = Faker()
 
 if __name__ == '__main__':
     family = [
         BaseContact('Piotr', 'Kowalski', 123456789, 'piotr.kowalski@wp.pl'),
         BaseContact('Aleksandra', 'Nowak',122334455, 'aleksandra.nowak@wp.pl')
     ]
-    fake = Faker()
+
+if __name__ == '__main__':
+    create_contacts = [
+        BaseContact(fake.first_name(),fake.last_name(),fake.phone_number(),fake.email())
+    ]
 
 class BusinessContact(BaseContact):
 
@@ -49,11 +55,15 @@ if __name__ == '__main__':
     print(sorted(family, key=lambda contact:contact.surname))
     fake = Faker()   
 
+if __name__ == '__main__':
+    fakedata = [
+        BaseContact(fake.first_name(),fake.last_name(),fake.phone_number(),fake.email()),
+        BusinessContact(fake.job(),fake.company(),fake.phone_number(),fake.first_name(),fake.last_name(),fake.phone_number(),fake.email())
+    ]
+
     for person in family:
         person.contact()
 
 def create_contacts():
-        for i in range (5):
-            print (f'{fake.name()},{fake.phone_number(),{fake.email()}}')
-
-print(create_contacts())
+    for i in fakedata(5):
+        i.create_contacts()
