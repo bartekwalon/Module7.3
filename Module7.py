@@ -1,3 +1,6 @@
+from faker import Faker
+fake = Faker()
+
 class BaseContact:
     def __init__(self, name, surname, phone, email):
         self.name, self.surname, self.phone, self.email = name, surname, phone, email
@@ -15,22 +18,8 @@ class BaseContact:
     def label_length(self):
         print(f'Długość imienia: {len(self.name)} i długość nazwiska {len(self.surname)}') 
 
-
     __repr__ = __str__
 
-from faker import Faker
-fake = Faker()
-
-if __name__ == '__main__':
-    family = [
-        BaseContact('Piotr', 'Kowalski', 123456789, 'piotr.kowalski@wp.pl'),
-        BaseContact('Aleksandra', 'Nowak',122334455, 'aleksandra.nowak@wp.pl')
-    ]
-
-if __name__ == '__main__':
-    create_contacts = [
-        BaseContact(fake.first_name(),fake.last_name(),fake.phone_number(),fake.email())
-    ]
 
 class BusinessContact(BaseContact):
 
@@ -45,7 +34,22 @@ class BusinessContact(BaseContact):
     def label_length(self):
         print(f'Długość imienia: {len(self.name)} i długość nazwiska {len(self.surname)}')
 
+def create_contacts(kind, n):
+    if kind == 'b':
+        return [
+            BusinessContact(fake.job(),fake.company(),fake.phone_number(),fake.first_name(),fake.last_name(),fake.phone_number(),fake.email()) for _ in range(n)
+        ]
+    if kind == 'p':
+        return [
+            BaseContact(fake.first_name(),fake.last_name(),fake.phone_number(),fake.email()) for _ in range(n)
+        ]
+
+
 if __name__ == '__main__':
+    family = [
+        BaseContact('Piotr', 'Kowalski', 123456789, 'piotr.kowalski@wp.pl'),
+        BaseContact('Aleksandra', 'Nowak',122334455, 'aleksandra.nowak@wp.pl')
+    ]
     family = [
         BaseContact('Piotr', 'Kowalski', 123456789, 'piotr.kowalski@wp.pl'),
         BaseContact('Aleksandra', 'Nowak',122334455, 'aleksandra.nowak@wp.pl'),
@@ -55,15 +59,7 @@ if __name__ == '__main__':
     print(sorted(family, key=lambda contact:contact.surname))
     fake = Faker()   
 
-if __name__ == '__main__':
-    fakedata = [
-        BaseContact(fake.first_name(),fake.last_name(),fake.phone_number(),fake.email()),
-        BusinessContact(fake.job(),fake.company(),fake.phone_number(),fake.first_name(),fake.last_name(),fake.phone_number(),fake.email())
-    ]
-
     for person in family:
         person.contact()
 
-def create_contacts():
-    for i in fakedata(5):
-        i.create_contacts()
+    print(create_contacts('p',5))
